@@ -1,16 +1,19 @@
-package com.codebud7;
+package com.codebud7.berryshot;
 
+import com.codebud7.berryshot.config.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = BerryshotApplication.class)
-public class BerryshotApplicationTests {
+@SpringApplicationConfiguration(classes = Application.class)
+public class BerryshotApplicationTests
+{
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads()
+    {
+    }
 
 }
