@@ -1,7 +1,9 @@
 package com.codebud7.berryshot.service;
 
+import com.codebud7.berryshot.properties.ApplicationProperties;
 import com.codebud7.berryshot.service.dropbox.DropboxService;
 import com.codebud7.berryshot.service.dropbox.UploadFailedException;
+import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class SyncService
 {
     private final Logger LOGGER = LoggerFactory.getLogger(SyncService.class);
+    private final ApplicationProperties applicationProperties = ConfigFactory.create(ApplicationProperties.class);
 
     @Autowired
     private RaspiStillService raspiStillService;
@@ -26,14 +29,17 @@ public class SyncService
     @Scheduled(fixedDelay = 5000)
     public void takeDropboxPicture()
     {
-        try
+        if (this.applicationProperties.isSchedulerEnabled())
         {
-            final String fileName = this.raspiStillService.takePicture();
-            this.dropboxService.uploadFileV2(fileName);
-        }
-        catch (final UploadFailedException e)
-        {
-            this.LOGGER.error(e.toString());
+            try
+            {
+                final String fileName = this.raspiStillService.takePicture();
+                this.dropboxService.uploadFileV2(fileName);
+            }
+            catch (final UploadFailedException e)
+            {
+                this.LOGGER.error(e.toString());
+            }
         }
     }
 }

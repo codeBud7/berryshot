@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by s.puskeiler on 25.03.16.
  */
 @RestController
-public class PictureController
+class PictureController
 {
     private final Logger LOGGER = LoggerFactory.getLogger(SyncService.class);
 

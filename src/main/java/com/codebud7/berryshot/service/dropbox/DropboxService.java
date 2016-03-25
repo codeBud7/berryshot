@@ -22,10 +22,10 @@ public class DropboxService
     private final DropboxProperties dropboxProperties = ConfigFactory.create(DropboxProperties.class);
     private final Logger LOGGER = LoggerFactory.getLogger(DropboxService.class);
 
-    private DbxRequestConfig dbxRequestConfig;
+    private final DbxRequestConfig dbxRequestConfig;
 
 
-    public DropboxService()
+    private DropboxService()
     {
         this.dbxRequestConfig = new DbxRequestConfig(this.dropboxProperties.getIdentifier(), Locale.getDefault().toString());
     }
