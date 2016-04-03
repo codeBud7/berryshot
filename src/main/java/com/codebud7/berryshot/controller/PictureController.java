@@ -4,6 +4,7 @@ import com.codebud7.berryshot.service.RaspiStillService;
 import com.codebud7.berryshot.service.SyncService;
 import com.codebud7.berryshot.service.dropbox.DropboxService;
 import com.codebud7.berryshot.service.dropbox.UploadFailedException;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ class PictureController
 
     @RequestMapping(value = "/v1/picture/take", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public void takePicture(@RequestParam(name = "enableDropboxUpload") final Boolean dropboxUpload)
+    public void takePicture(@RequestParam(name = "enableDropboxUpload") final Boolean dropboxUpload) throws IOException
     {
         try
         {

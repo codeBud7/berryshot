@@ -3,6 +3,7 @@ package com.codebud7.berryshot.service;
 import com.codebud7.berryshot.properties.ApplicationProperties;
 import com.codebud7.berryshot.service.dropbox.DropboxService;
 import com.codebud7.berryshot.service.dropbox.UploadFailedException;
+import java.io.IOException;
 import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class SyncService
     private DropboxService dropboxService;
 
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 60000)
     public void takeDropboxPicture()
     {
         if (this.applicationProperties.isSchedulerEnabled())
@@ -36,7 +37,7 @@ public class SyncService
                 final String fileName = this.raspiStillService.takePicture();
                 this.dropboxService.uploadFileV2(fileName);
             }
-            catch (final UploadFailedException e)
+            catch (final UploadFailedException | IOException e)
             {
                 this.LOGGER.error(e.toString());
             }

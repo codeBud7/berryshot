@@ -28,6 +28,10 @@ public interface RaspberryProperties extends Reloadable
     @Config.DefaultValue("768")
     Integer getPictureHeight();
 
+    @Config.Key("raspberry.picture.output.path")
+    @Config.DefaultValue(".")
+    String getOutputPath();
+
     @Config.Key("raspberry.picture.name")
     @Config.DefaultValue("berryshot.jpg")
     String getPictureName();

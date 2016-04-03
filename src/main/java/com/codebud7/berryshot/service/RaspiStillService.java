@@ -2,6 +2,7 @@ package com.codebud7.berryshot.service;
 
 import com.codebud7.berryshot.model.RaspstillParams;
 import com.codebud7.berryshot.properties.RaspberryProperties;
+import java.io.IOException;
 import org.aeonbits.owner.ConfigFactory;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -18,11 +19,11 @@ public class RaspiStillService
     private final Logger LOGGER = LoggerFactory.getLogger(RaspiStillService.class);
 
 
-    public String takePicture()
+    public String takePicture() throws IOException
     {
         try
         {
-            final String fileName = DateTime.now().toString("yyyy-MM-dd-hh-mm-ss") + this.raspberryProperties.getPictureName();
+            final String fileName = DateTime.now().toString("yyyy-MM-dd-hh-mm-ss-") + this.raspberryProperties.getPictureName();
 
             final String command = this.raspberryProperties.getRaspistillPath() +
                 " " + RaspstillParams.NOPREVIEW +
@@ -35,7 +36,7 @@ public class RaspiStillService
                 " " + RaspstillParams.NAME + " " + fileName;
 
             this.LOGGER.debug(command);
-            //            Runtime.getRuntime().exec(command);
+            Runtime.getRuntime().exec(command);
 
             return fileName;
         }

@@ -15,4 +15,8 @@ public interface DropboxProperties extends Reloadable
     @Key("dropbox.identifier")
     @Config.DefaultValue("berryshot")
     String getIdentifier();
+
+    @Config.Key("dropbox.output.path")
+    @Config.DefaultValue("/")
+    String getOutputPath();
 }

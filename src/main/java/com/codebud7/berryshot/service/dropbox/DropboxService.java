@@ -4,9 +4,13 @@ import com.codebud7.berryshot.properties.DropboxProperties;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.WriteMode;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Locale;
 import org.aeonbits.owner.ConfigFactory;
 import org.slf4j.Logger;
@@ -41,9 +45,15 @@ public class DropboxService
     {
         try
         {
-            try (InputStream in = new FileInputStream(fileName))
+            final File file = new File(new File("."), fileName);
+            try (InputStream fileInputStream = new FileInputStream(file))
             {
-                getDropBoxClientV2().files().uploadBuilder("/" + fileName).uploadAndFinish(in);
+                final FileMetadata metadata = getDropBoxClientV2().files().uploadBuilder(this.dropboxProperties.getOutputPath())
+                    .withMode(WriteMode.ADD)
+                    .withClientModified(new Date())
+                    .uploadAndFinish(fileInputStream);
+
+                this.LOGGER.info(metadata.toStringMultiline());
             }
         }
         catch (final DbxException | IOException e)
