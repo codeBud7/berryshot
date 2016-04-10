@@ -11,7 +11,7 @@ dropbox.identifier=berryshot
 
 Create package with maven
 ```bash
-mvn clean compile package
+mvn clean package
 ```
 
 Run spring boot app

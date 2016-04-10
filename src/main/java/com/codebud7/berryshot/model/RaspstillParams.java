@@ -12,6 +12,7 @@ public enum RaspstillParams
     HEIGHT("-h"),
     QUALITY("-q"),
     ENCODING("-e"),
+    EXPOSURE("-ex"),
     NAME("-o");
 
     private final String name;

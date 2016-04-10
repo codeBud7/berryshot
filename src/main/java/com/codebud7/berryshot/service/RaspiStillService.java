@@ -2,7 +2,9 @@ package com.codebud7.berryshot.service;
 
 import com.codebud7.berryshot.model.RaspstillParams;
 import com.codebud7.berryshot.properties.RaspberryProperties;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import org.aeonbits.owner.ConfigFactory;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ public class RaspiStillService
     {
         try
         {
-            final String fileName = DateTime.now().toString("yyyy-MM-dd-hh-mm-ss-") + this.raspberryProperties.getPictureName();
+            final String fileName = this.raspberryProperties.getOutputPath() + DateTime.now().toString(this.raspberryProperties.getDateFormat()) + this.raspberryProperties.getPictureName();
 
             final String command = this.raspberryProperties.getRaspistillPath() +
                 " " + RaspstillParams.NOPREVIEW +
@@ -33,17 +35,31 @@ public class RaspiStillService
                 " " + RaspstillParams.HEIGHT + " " + this.raspberryProperties.getPictureHeight() +
                 " " + RaspstillParams.QUALITY + " " + this.raspberryProperties.getPictureQuality() +
                 " " + RaspstillParams.ENCODING + " " + this.raspberryProperties.getPictureEncoding() +
+                " " + RaspstillParams.EXPOSURE + " " + this.raspberryProperties.getPictureExposure() +
                 " " + RaspstillParams.NAME + " " + fileName;
 
             this.LOGGER.debug(command);
-            Runtime.getRuntime().exec(command);
+
+            final Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            final StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                stringBuilder.append(line).append("\n");
+            }
+
+            this.LOGGER.debug(stringBuilder.toString());
 
             return fileName;
         }
-        catch (final Exception e)
+        catch (final IOException | InterruptedException e)
         {
             this.LOGGER.error(e.toString());
-            throw e;
+            throw new IOException(e);
         }
     }
 }

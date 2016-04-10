@@ -29,14 +29,22 @@ public interface RaspberryProperties extends Reloadable
     Integer getPictureHeight();
 
     @Config.Key("raspberry.picture.output.path")
-    @Config.DefaultValue(".")
+    @Config.DefaultValue("/home/pi/apps/")
     String getOutputPath();
 
     @Config.Key("raspberry.picture.name")
     @Config.DefaultValue("berryshot.jpg")
     String getPictureName();
 
+    @Config.Key("raspberry.picture.date.format")
+    @Config.DefaultValue("yyyy-MM-dd-hh-mm-ss-")
+    String getDateFormat();
+
     @Config.Key("raspberry.picture.encoding")
     @Config.DefaultValue("jpg")
     String getPictureEncoding();
+
+    @Config.Key("raspberry.picture.exposure")
+    @Config.DefaultValue("auto")
+    String getPictureExposure();
 }

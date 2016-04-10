@@ -18,5 +18,5 @@ public interface DropboxProperties extends Reloadable
 
     @Config.Key("dropbox.output.path")
     @Config.DefaultValue("/")
-    String getOutputPath();
+    String getDropboxUploaderPath();
 }
